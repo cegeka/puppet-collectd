@@ -1,0 +1,11 @@
+LoadPlugin interface
+<% if ! Array(@interface).empty? -%>
+<Plugin "interface">
+  <% @interface.each do |i| -%>
+  Interface "<%= i %>"
+  <% end -%>
+  <% if @ignore_selected -%>
+  IgnoreSelected true
+  <% end -%>
+</Plugin>
+<% end -%>
