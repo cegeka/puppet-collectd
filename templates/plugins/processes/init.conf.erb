@@ -1,0 +1,9 @@
+LoadPlugin processes
+<Plugin processes>
+<%- scope.lookupvar('process_items').each do |process_item,value| -%>
+   <ProcessMatch "<%= process_item %>" "<%= value['regex'] %>">
+     CollectFileDescriptor <%= value['collectfiledescriptor'] %>
+     CollectContextSwitch <%= value['collectcontextswitch'] %>
+   </ProcessMatch>
+<%- end -%>
+</Plugin>
