@@ -1,10 +1,10 @@
 LoadPlugin network
 <Plugin network>
-<%- scope.lookupvar('network_items').each do |network_ip,value| -%>
-   <Server "<%= network_ip %>" "<%= value['exporter_port'] %>">
+<%- scope.lookupvar('network_items').each do |network_item,value| -%>
+   <Server "<%= value['exporter_ip'] %>" "<%= value['exporter_port'] %>">
      SecurityLevel <%= value['exporter_securitylevel'] %>
      Username "<%= value['exporter_username'] %>"
-     Password "<%= value['exporter_password'] %>"
+     Password "<%= scope.call_function('getsecret', [value['exporter_password_id'], 'Password']) %>"
    </Server>
 <%- end -%>
 </Plugin>
