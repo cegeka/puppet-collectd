@@ -3,7 +3,8 @@
 define collectd::instance (
   $interval = '30',
   $version = 'present',
-  $additional_config = []
+  $additional_config = [],
+  $sysconfig = {}
 ) {
   # namevar = 'default' => default collectd service.
   # Other value, e.g. '10s' => create second collectd instance collectd10s...
@@ -22,6 +23,7 @@ define collectd::instance (
   }
 
   collectd::instance::service { $title:
+    sysconfig => $sysconfig,
     subscribe => Collectd::Instance::Config[$title],
   }
 }
