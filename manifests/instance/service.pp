@@ -8,15 +8,22 @@ define collectd::instance::service (
     $instance = ''
   }
 
-  file { "/etc/systemd/system/collectd${instance}.service.d":
-    ensure => directory
+  case $::os[release][major] {
+    '6': {}
+    '7','8': {
+      file { "/etc/systemd/system/collectd${instance}.service.d":
+        ensure => directory
+      }
+
+      file { "/etc/systemd/system/collectd${instance}.service.d/sysconfig.conf":
+        ensure  => present,
+        content => "[Service]\nEnvironmentFile=/etc/sysconfig/collectd${instance}",
+        notify  => Service["collectd${instance}"]
+      }
+    }
+    default: {}
   }
 
-  file { "/etc/systemd/system/collectd${instance}.service.d/sysconfig.conf":
-    ensure  => present,
-    content => "[Service]\nEnvironmentFile=/etc/sysconfig/collectd${instance}",
-    notify  => Service["collectd${instance}"]
-  }
 
   file { "/etc/sysconfig/collectd${instance}":
     ensure  => present,
