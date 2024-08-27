@@ -8,7 +8,7 @@ define collectd::instance::config::oracle (
     $instance = ''
   }
 
-  case $::operatingsystemrelease {
+  case $facts['os']['release']['full'] {
     /^[567]\./: {
       if !defined(Package['collectd-oracle']) {
         package { 'collectd-oracle':
@@ -63,6 +63,6 @@ define collectd::instance::config::oracle (
 
       Collectd::Instance::Config[$title] -> Collectd::Instance::Config::Oracle[$title] ~> Collectd::Instance::Service[$title]
     }
-    default: { notice("operatingsystemrelease ${::operatingsystemrelease} is not supported") }
+    default: { notice("operatingsystemrelease ${facts['os']['release']['full']} is not supported") }
   }
 }
